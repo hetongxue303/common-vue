@@ -8,13 +8,31 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.25"
+    "@element-plus/icons-vue": "^2.0.6",
+    "@vueuse/integrations": "^8.7.5",
+    "animate.css": "^4.1.1",
+    "axios": "^0.27.2",
+    "element-plus": "^2.2.8",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.14",
+    "qs": "^6.11.0",
+    "reset.css": "^2.0.2",
+    "universal-cookie": "^4.0.4",
+    "vue": "^3.2.25",
+    "vue-axios": "^3.4.1",
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@types/node": "^18.0.1",
     "@vitejs/plugin-vue": "^2.3.3",
+    "less": "^4.1.3",
+    "less-loader": "^11.0.0",
+    "sass": "^1.53.0",
+    "sass-loader": "^13.0.2",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
-    "vue-tsc": "^0.34.7"
+    "vite-plugin-windicss": "^1.8.6",
+    "vue-tsc": "^0.34.7",
+    "windicss": "^3.5.6"
   }
 }

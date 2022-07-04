@@ -5,4 +5,16 @@
 > vue 3.x\
 > vite 2.x\
 > typescript\
-> @types/node
+> @types/node\
+> less/sass\
+> vue-router@4\
+> nprogress\
+> element plus\
+> element plus icon\
+> reset.css\
+> animate.css\
+> windi.css\
+> axios\
+> pinia\
+> qs\
+> useCookie
