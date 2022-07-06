@@ -8,7 +8,7 @@ export default {
     install(app: App) {
         app.use(ElementPlus, {
             locale,
-            size: 'small' || 'default' || 'large'
+            size: 'default' || 'small' || 'large'
         })
         // 循环遍历图标
         Object.keys(Icons).forEach((key: string) => {
