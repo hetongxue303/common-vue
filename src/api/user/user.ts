@@ -23,3 +23,11 @@ export const login = (data: loginEntity) => {
         }
     })
 }
+
+// 注销处理
+export const logout = () => {
+    return axios({
+        method: 'GET',
+        url: baseUrl + '/logout'
+    })
+}

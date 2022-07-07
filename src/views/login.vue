@@ -66,6 +66,7 @@ import {ElMessage, FormInstance, FormRules} from 'element-plus'
 import {useRouter} from 'vue-router'
 import {loginEntity} from '../api/user/types'
 import {useCookies} from '@vueuse/integrations/useCookies'
+import {useBase64} from '@vueuse/core'
 
 const cookie = useCookies()
 
@@ -112,7 +113,7 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
           // 是否记住我
           if (loginForm.rememberMe) {
             cookie.set('userinfo', loginForm)
-          } else {
+          } else if (cookie.get('userinfo')) {
             cookie.remove('userinfo')
           }
           ElMessage.success('登陆成功')
@@ -143,7 +144,7 @@ const autoFillInfo = () => {
   if (data) {
     loginForm.rememberMe = data.rememberMe
     loginForm.username = data.username
-    loginForm.password = data.password
+    loginForm.password = useBase64()
   }
 }
 
