@@ -1,23 +1,23 @@
 <template>
-    <el-menu
-        :collapse="props.collapse"
-        :default-active="active"
-        :router="true"
-        :unique-opened="true"
-        active-text-color="#409EFF"
-        background-color="#304156"
-        text-color="#fff"
-        class="menu">
-      <!--logo-->
-      <Logo/>
-      <!--菜单项-->
-      <MenuItem :data="layoutStore.getMenuList"/>
-    </el-menu>
+  <el-menu
+      :collapse="props.collapse"
+      :default-active="active"
+      :router="true"
+      :unique-opened="true"
+      active-text-color="#409EFF"
+      background-color="#304156"
+      text-color="#fff"
+      class="menu">
+    <!--logo-->
+    <Logo/>
+    <!--菜单项-->
+    <MenuItem :data="layoutStore.getMenuList"/>
+  </el-menu>
 </template>
 
 <script lang="ts" setup>
-import MenuItem from './menuItem.vue'
-import Logo from './logo.vue'
+import MenuItem from '@layout/sidebar/menuItem.vue'
+import Logo from '@layout/sidebar/logo.vue'
 import {onMounted, PropType, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
 import {useLayoutStore} from '../../store/modules/layout'

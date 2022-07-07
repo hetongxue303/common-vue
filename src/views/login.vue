@@ -49,7 +49,7 @@
           </el-row>
         </el-form-item>
         <el-form-item>
-
+          <el-checkbox v-model="loginForm.rememberMe">记住我</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="loginHandler(ruleFormRef)" color="#626aef" class="w-[250px]">登 录</el-button>
@@ -64,12 +64,16 @@ import {onMounted, reactive, ref, watch} from 'vue'
 import {getVerify, login} from '../api/user/user'
 import {ElMessage, FormInstance, FormRules} from 'element-plus'
 import {useRouter} from 'vue-router'
-import {loginEntity} from '../api/user/type'
+import {loginEntity} from '../api/user/types'
+import {useCookies} from '@vueuse/integrations/useCookies'
+
+const cookie = useCookies()
 
 const loginForm = reactive<loginEntity>({
   username: '',
   password: '',
-  code: ''
+  code: '',
+  rememberMe: false
 })
 
 // 表单校验
@@ -95,8 +99,6 @@ const initImageCode = async () => {
   imgUrl.value = data.data;
 }
 watch(() => imgUrl.value, () => loginForm.code = '')
-onMounted(() => initImageCode())
-
 
 // 登陆处理
 const router = useRouter()
@@ -107,8 +109,14 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
       const {data} = await login(loginForm);
       switch (data.code as number) {
         case 200: {
+          // 是否记住我
+          if (loginForm.rememberMe) {
+            cookie.set('userinfo', loginForm)
+          } else {
+            cookie.remove('userinfo')
+          }
           ElMessage.success('登陆成功')
-          await router.push('/dashboard')
+          await router.push('/dashboard');
           break
         }
         case 5000: {
@@ -128,6 +136,21 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
     }
   })
 }
+
+// 检查是否存在cookie 存在就填充信息
+const autoFillInfo = () => {
+  const data: loginEntity = cookie.get('userinfo')
+  if (data) {
+    loginForm.rememberMe = data.rememberMe
+    loginForm.username = data.username
+    loginForm.password = data.password
+  }
+}
+
+onMounted(() => {
+  initImageCode()// 初始化验证码
+  autoFillInfo()// 判断cookie
+})
 </script>
 
 <style scoped lang="scss">

@@ -4,15 +4,18 @@ import * as path from 'path'
 import WindiCSS from 'vite-plugin-windicss'
 
 export default defineConfig({
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, 'src')
-        }
-    },
     plugins: [
         vue(),
         WindiCSS()
     ],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, 'src'),
+            '@views': path.resolve(__dirname, 'src/views'),
+            '@layout': path.resolve(__dirname, 'src/layout'),
+            '@components': path.resolve(__dirname, 'src/components')
+        }
+    },
     server: {
         host: '127.0.0.1',
         port: 3000,

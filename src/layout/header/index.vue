@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import Center from './center.vue'
+import Center from '@layout/header/center.vue'
 
 import {useLayoutStore} from '../../store/modules/layout'
 

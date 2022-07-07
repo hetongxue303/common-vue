@@ -3,9 +3,9 @@ import {RouteRecordRaw} from 'vue-router'
 // 模拟路由数据
 export const routerList: Array<RouteRecordRaw> = [
     {
-        path: '/',
+        path: '/system',
         name: 'system',
-        component: () => import('../index.vue'),
+        component: () => import('@layout/index.vue'),
         meta: {
             title: '系统管理'
         },
@@ -16,7 +16,7 @@ export const routerList: Array<RouteRecordRaw> = [
                 meta: {
                     title: '用户管理'
                 },
-                component: () => import('../../views/system/user.vue')
+                component: () => import('@views/system/user.vue')
             },
             {
                 path: '/system/role',
@@ -24,7 +24,7 @@ export const routerList: Array<RouteRecordRaw> = [
                 meta: {
                     title: '角色管理'
                 },
-                component: () => import('../../views/system/role.vue')
+                component: () => import('@views/system/role.vue')
             },
             {
                 path: '/system/menu',
@@ -32,14 +32,14 @@ export const routerList: Array<RouteRecordRaw> = [
                 meta: {
                     title: '菜单管理'
                 },
-                component: () => import('../../views/system/menu.vue')
+                component: () => import('@views/system/menu.vue')
             }
         ]
     },
     {
-        path: '/',
+        path: '/test',
         name: 'test',
-        component: () => import('../index.vue'),
+        component: () => import('@layout/index.vue'),
         meta: {
             title: '测试管理'
         },
@@ -50,7 +50,7 @@ export const routerList: Array<RouteRecordRaw> = [
                 meta: {
                     title: '测试1'
                 },
-                component: () => import('../../views/system/user.vue')
+                component: () => import('@views/system/user.vue')
             },
             {
                 path: '/test/2',
@@ -58,7 +58,7 @@ export const routerList: Array<RouteRecordRaw> = [
                 meta: {
                     title: '测试2'
                 },
-                component: () => import('../../views/system/role.vue')
+                component: () => import('@views/system/role.vue')
             },
             {
                 path: '/test/3',
@@ -66,7 +66,7 @@ export const routerList: Array<RouteRecordRaw> = [
                 meta: {
                     title: '测试3'
                 },
-                component: () => import('../../views/system/menu.vue')
+                component: () => import('@views/system/menu.vue')
             }
         ]
     }

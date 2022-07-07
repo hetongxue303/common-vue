@@ -18,9 +18,9 @@
 </template>
 
 <script setup lang="ts">
-import Sidebar from '../layout/sidebar/index.vue'
-import Footer from '../layout/footer/index.vue'
-import Header from '../layout/header/index.vue'
+import Sidebar from '@layout/sidebar/index.vue'
+import Footer from '@layout/footer/index.vue'
+import Header from '@layout/header/index.vue'
 
 import {onMounted} from 'vue'
 import {useLayoutStore} from '../store/modules/layout'

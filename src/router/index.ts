@@ -1,13 +1,12 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import * as nProgress from 'nprogress'
-import Layout from '../layout/index.vue'
 
 const routes: Array<RouteRecordRaw> = [
     // 404
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
-        component: () => import('../views/error/404.vue')
+        component: () => import('@views/error/404.vue')
     },
     // 登录页
     {
@@ -18,13 +17,13 @@ const routes: Array<RouteRecordRaw> = [
             keepAlive: true,
             requireAuth: false
         },
-        component: () => import('../views/login.vue')
+        component: () => import('@views/login.vue')
     },
     // layout页面(默认就有)
     {
         path: '/',
-        name: 'Layout',
-        component: Layout,
+        name: 'layout',
+        component: () => import('@layout/index.vue'),
         redirect: '/dashboard',
         children: [
             {
@@ -35,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
                     keepAlive: true,
                     requireAuth: false
                 },
-                component: () => import('../views/dashboard/index.vue')
+                component: () => import('@views/dashboard/index.vue')
             }
         ]
     }

@@ -1,5 +1,5 @@
 import {axios} from '../../utils/axios'
-import {loginEntity} from './type'
+import {loginEntity} from './types'
 import * as qs from 'qs'
 
 const baseUrl = '/api'
