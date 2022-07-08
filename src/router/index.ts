@@ -1,14 +1,13 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import * as nProgress from 'nprogress'
+import {useMainStore} from '../store'
 
 const routes: Array<RouteRecordRaw> = [
-    // 404
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
         component: () => import('@views/error/404.vue')
     },
-    // 登录页
     {
         path: '/login',
         name: 'login',
@@ -19,12 +18,15 @@ const routes: Array<RouteRecordRaw> = [
         },
         component: () => import('@views/login.vue')
     },
-    // layout页面(默认就有)
     {
         path: '/',
         name: 'layout',
         component: () => import('@layout/index.vue'),
         redirect: '/dashboard',
+        meta: {
+            keepAlive: true,
+            requireAuth: true
+        },
         children: [
             {
                 path: '/dashboard',
@@ -32,7 +34,7 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     title: '仪表盘',
                     keepAlive: true,
-                    requireAuth: false
+                    requireAuth: true
                 },
                 component: () => import('@views/dashboard/index.vue')
             }
@@ -45,13 +47,21 @@ const router = createRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
-    // nProgress.start()
-    next()
+router.beforeEach(async (to, from, next) => {
+    nProgress.start()
+    if (to.path === '/login' || to.meta.requireAuth === false) {
+        next()
+    } else if (useMainStore().getAuthorization && sessionStorage.getItem('Authorization')) {
+        next()
+    } else {
+        next({
+            path: '/login'
+        })
+    }
+
 })
 
 router.afterEach(() => {
-    // nProgress.done()
 })
 
 // 配置nProgress

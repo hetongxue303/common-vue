@@ -1,17 +1,28 @@
 import {defineStore} from 'pinia'
 
 interface indexStore {
+    Authorization: string
 }
 
 export const useMainStore = defineStore('main', {
-    // 存储全局状态
     state: (): indexStore => {
-        return {}
+        return {
+            Authorization: ''
+        }
     },
-
-    // 封装计算属性 具有缓存功能
-    getters: {},
-
-    // 封装业务逻辑 修改state
-    actions: {}
+    getters: {
+        getAuthorization(state) {
+            return state.Authorization
+        }
+    },
+    actions: {
+        setAuthorization(authorization: string) {
+            sessionStorage.setItem('Authorization', authorization)
+            this.Authorization = authorization
+        },
+        delAuthorization() {
+            sessionStorage.removeItem('Authorization')
+            this.Authorization = ''
+        }
+    }
 })

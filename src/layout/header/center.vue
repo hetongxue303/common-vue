@@ -39,9 +39,11 @@ import {useCookies} from '@vueuse/integrations/useCookies'
 import {logout} from '../../api/user/user'
 import {ElMessage} from 'element-plus'
 import {useRouter} from 'vue-router'
+import {useMainStore} from '../../store'
 
 const cookie = useCookies()
 const router = useRouter()
+const mainStore = useMainStore()
 const dialogVisible = ref(false)
 
 // 注销处理
@@ -49,9 +51,11 @@ const logoutHandler = async () => {
   const {data} = await logout()
   switch (data.code as number) {
     case 200:
+      // 清除cookie
+      if (cookie.get('USER'))
+        cookie.remove('USER')
+      mainStore.delAuthorization()// 清除session和store的值
       ElMessage.success('注销成功')
-      if (cookie.get('userinfo'))
-        cookie.remove('userinfo')
       await router.push('/login')
       break
     default:

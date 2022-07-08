@@ -15,7 +15,7 @@
       </div>
       <el-form :model="loginForm" :rules="rules" ref="ruleFormRef" class="right-loginBox">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" placeholder="请输入用户名">
+          <el-input v-model="loginForm.username" placeholder="用户名">
             <template #prefix>
               <el-icon>
                 <component is="user"/>
@@ -24,7 +24,7 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" placeholder="请输入密码" type="password">
+          <el-input v-model="loginForm.password" placeholder="密码" type="password" show-password>
             <template #prefix>
               <el-icon>
                 <component is="lock"/>
@@ -35,7 +35,7 @@
         <el-form-item prop="code">
           <el-row class="w-[250px]">
             <el-col :span="14" class="mr-3">
-              <el-input v-model="loginForm.code" placeholder="请输入验证码">
+              <el-input v-model="loginForm.code" placeholder="验证码">
                 <template #prefix>
                   <el-icon>
                     <component is="key"/>
@@ -66,9 +66,11 @@ import {ElMessage, FormInstance, FormRules} from 'element-plus'
 import {useRouter} from 'vue-router'
 import {loginEntity} from '../api/user/types'
 import {useCookies} from '@vueuse/integrations/useCookies'
-import {useBase64} from '@vueuse/core'
+import {useMainStore} from '../store'
+import {Base64} from 'js-base64'
 
 const cookie = useCookies()
+const mainStore = useMainStore()
 
 const loginForm = reactive<loginEntity>({
   username: '',
@@ -107,32 +109,44 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid) => {
     if (valid) {
-      const {data} = await login(loginForm);
-      switch (data.code as number) {
+      const data = await login(loginForm);
+      switch (data.data.code as number) {
         case 200: {
           // 是否记住我
           if (loginForm.rememberMe) {
-            cookie.set('userinfo', loginForm)
-          } else if (cookie.get('userinfo')) {
-            cookie.remove('userinfo')
+            cookie.set('USER', Base64.encode(JSON.stringify(loginForm)))
+          } else if (cookie.get('USER')) {
+            cookie.remove('USER')
           }
+          // 存储Authorization
+          mainStore.setAuthorization(data.headers.authorization)
           ElMessage.success('登陆成功')
           await router.push('/dashboard');
           break
         }
-        case 5000: {
+        case 5000:
           ElMessage.error('验证码错误')
           loginForm.code = ''
           await initImageCode()
           break
-        }
-        case 400: {
+        case 5001:
+          ElMessage.error('验证码已过期')
+          loginForm.code = ''
+          await initImageCode()
+          break
+        case 5002:
+          ElMessage.error('验证码不能为空')
+          loginForm.code = ''
+          await initImageCode()
+          break
+        case 400:
           ElMessage.error('用户名或密码错误')
           loginForm.code = ''
           loginForm.password = ''
           await initImageCode()
           break
-        }
+        default:
+          ElMessage.warning('发生异常')
       }
     }
   })
@@ -140,11 +154,11 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
 
 // 检查是否存在cookie 存在就填充信息
 const autoFillInfo = () => {
-  const data: loginEntity = cookie.get('userinfo')
+  const data: loginEntity = cookie.get('USER') ? JSON.parse(Base64.decode(cookie.get('USER'))) : null
   if (data) {
     loginForm.rememberMe = data.rememberMe
     loginForm.username = data.username
-    loginForm.password = useBase64()
+    loginForm.password = data.password
   }
 }
 

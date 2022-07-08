@@ -3,6 +3,8 @@ import VueAxios from 'vue-axios'
 import {ElMessage, ElNotification} from 'element-plus'
 import {useRouter} from 'vue-router'
 import * as nProgress from 'nprogress'
+import {useMainStore} from "../store";
+import {useCookies} from "@vueuse/integrations/useCookies";
 
 axios.create({
     baseURL: 'http://127.0.0.1:8080',
@@ -14,6 +16,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 
 axios.interceptors.request.use((config: AxiosRequestConfig) => {
     nProgress.start()
+    if (useMainStore().getAuthorization && sessionStorage.getItem('Authorization')) {
+        if (config.headers) {
+            config.headers['Authorization'] = useMainStore().getAuthorization
+        }
+    }
     return config;
 }, ((error: any) => {
     ElNotification.error('请求错误！')
