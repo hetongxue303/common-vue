@@ -115,9 +115,9 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
         case 200: {
           // 是否记住我
           if (loginForm.rememberMe) {
-            cookie.set('USER', Base64.encode(JSON.stringify(loginForm)))
-          } else if (cookie.get('USER')) {
-            cookie.remove('USER')
+            cookie.set('USERINFO', Base64.encode(JSON.stringify(loginForm)))
+          } else if (cookie.get('USERINFO')) {
+            cookie.remove('USERINFO')
           }
           // 存储Authorization
           mainStore.setAuthorization(data.headers.authorization)
@@ -155,7 +155,7 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
 
 // 检查是否存在cookie 存在就填充信息
 const autoFillInfo = () => {
-  const data: loginEntity = cookie.get('USER') ? JSON.parse(Base64.decode(cookie.get('USER'))) : null
+  const data: loginEntity = cookie.get('USERINFO') ? JSON.parse(Base64.decode(cookie.get('USERINFO'))) : null
   if (data) {
     loginForm.rememberMe = data.rememberMe
     loginForm.username = data.username

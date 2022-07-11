@@ -4,6 +4,8 @@ import {useRouter} from 'vue-router'
 import * as nProgress from 'nprogress'
 import {useMainStore} from '../store'
 
+const router = useRouter()
+
 axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 5000,
@@ -12,7 +14,7 @@ axios.create({
 
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 
-axios.interceptors.request.use((config: AxiosRequestConfig) => {
+axios.interceptors.request.use(async (config: AxiosRequestConfig) => {
     nProgress.start()
     if (useMainStore().getAuthorization && localStorage.getItem('Authorization')) {
         if (config.headers) {
@@ -25,13 +27,12 @@ axios.interceptors.request.use((config: AxiosRequestConfig) => {
     return Promise.reject(error);
 }))
 
-axios.interceptors.response.use((response: AxiosResponse) => {
+axios.interceptors.response.use(async (response: AxiosResponse) => {
     nProgress.done()
     switch (response.status as number) {
         case 401: {
             ElMessage.warning('请先登录')
-            const router = useRouter()
-            router.push('/login')
+            await router.push('/login')
             break
         }
         case 403: {

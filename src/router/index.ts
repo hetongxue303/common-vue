@@ -52,12 +52,10 @@ router.beforeEach(async (to, from, next) => {
     // next()
     if (to.path === '/login' || to.meta.requireAuth === false) {
         next()
-    } else if (useMainStore().getAuthorization && sessionStorage.getItem('Authorization')) {
+    } else if (localStorage.getItem('Authorization') && useMainStore().getAuthorization) {
         next()
     } else {
-        next({
-            path: '/login'
-        })
+        next('/login')
     }
 
 })

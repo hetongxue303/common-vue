@@ -7,7 +7,7 @@ interface indexStore {
 export const useMainStore = defineStore('main', {
     state: (): indexStore => {
         return {
-            Authorization: ''
+            Authorization: localStorage.getItem('Authorization') || ''
         }
     },
     getters: {
@@ -17,11 +17,11 @@ export const useMainStore = defineStore('main', {
     },
     actions: {
         setAuthorization(authorization: string) {
-            sessionStorage.setItem('Authorization', authorization)
+            localStorage.setItem('Authorization', authorization)
             this.Authorization = authorization
         },
         delAuthorization() {
-            sessionStorage.removeItem('Authorization')
+            localStorage.removeItem('Authorization')
             this.Authorization = ''
         }
     }
