@@ -2,20 +2,20 @@
   <el-row class="login-container">
     <!--左边-->
     <el-col :lg="16" :md="12" class="left">
-      <div class="left-title">通用后台系统</div>
-      <div class="left-text">网站描述文字...</div>
+      <div class="left-title">{{ $t(`login.leftTitle`) }}</div>
+      <div class="left-text">{{ $t(`login.leftText`) }}</div>
     </el-col>
     <!--右边-->
     <el-col :lg="8" :md="12" class="right">
-      <h2 class="right-title">欢迎回来</h2>
+      <h2 class="right-title">{{ $t(`login.title`) }}</h2>
       <div class="right-textBox">
         <span class="h-[1px] w-16 bg-gray-200"></span>
-        <span>账号密码登录</span>
+        <span>{{ $t(`login.text`) }}</span>
         <span class="h-[1px] w-16 bg-gray-200"></span>
       </div>
       <el-form :model="loginForm" :rules="rules" ref="ruleFormRef" class="right-loginBox">
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" placeholder="用户名">
+          <el-input v-model="loginForm.username" :placeholder="$t(`login.username`)">
             <template #prefix>
               <el-icon>
                 <component is="user"/>
@@ -24,7 +24,7 @@
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="loginForm.password" placeholder="密码" type="password" show-password>
+          <el-input v-model="loginForm.password" :placeholder="$t(`login.password`)" type="password" show-password>
             <template #prefix>
               <el-icon>
                 <component is="lock"/>
@@ -35,7 +35,7 @@
         <el-form-item prop="code">
           <el-row class="w-[250px]">
             <el-col :span="14" class="mr-3">
-              <el-input v-model="loginForm.code" placeholder="验证码">
+              <el-input v-model="loginForm.code" :placeholder="$t(`login.code`)">
                 <template #prefix>
                   <el-icon>
                     <component is="key"/>
@@ -44,15 +44,17 @@
               </el-input>
             </el-col>
             <el-col :span="8" class="flex justify-center items-center">
-              <el-image :src="imgUrl" @click="initImageCode" style="cursor: pointer" title="点击切换验证码"/>
+              <el-image :src="imgUrl" @click="initImageCode" style="cursor: pointer" :title="$t(`login.imgTitle`)"/>
             </el-col>
           </el-row>
         </el-form-item>
         <el-form-item>
-          <el-checkbox v-model="loginForm.rememberMe">记住我</el-checkbox>
+          <el-checkbox v-model="loginForm.rememberMe">{{ $t(`login.rememberMe`) }}</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="loginHandler(ruleFormRef)" color="#626aef" class="w-[250px]">登 录</el-button>
+          <el-button type="primary" @click="loginHandler(ruleFormRef)" color="#626aef" class="w-[250px]">
+            {{ $t(`login.btnText`) }}
+          </el-button>
         </el-form-item>
       </el-form>
     </el-col>

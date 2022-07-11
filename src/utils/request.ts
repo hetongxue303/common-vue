@@ -30,17 +30,22 @@ axios.interceptors.request.use(async (config: AxiosRequestConfig) => {
 axios.interceptors.response.use(async (response: AxiosResponse) => {
     nProgress.done()
     switch (response.status as number) {
-        case 401: {
-            ElMessage.warning('请先登录')
+        case 200 || 201:
+            return response;
+        case 401:
+            ElMessage.warning('您未登录')
             await router.push('/login')
             break
-        }
-        case 403: {
-            ElMessage.warning('拒绝访问')
+        case 403:
+            ElMessage.warning('无权访问')
             break
-        }
+        case 500:
+            ElMessage.error('服务器异常')
+            break
+        default:
+            ElNotification.error('未知异常')
     }
-    return response;
+
 }, ((error: any) => {
         ElNotification.error('响应错误！')
         return Promise.reject(error);

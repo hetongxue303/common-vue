@@ -13,7 +13,7 @@ const props = defineProps({
   prefix: {type: String as PropType<string>, default: 'icon'},
   name: {type: String as PropType<string>, required: true},
   color: {type: String as PropType<string>, default: ''},
-  size: {type: Number as PropType<number>, default: 1},
+  size: {type: Number as PropType<number>, default: 1.2},
   fill: {type: String as PropType<string>, default: 'currentColor'}
 })
 

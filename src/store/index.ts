@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
 
 interface indexStore {
-    Authorization: string
+    Authorization: string,
 }
 
 export const useMainStore = defineStore('main', {
