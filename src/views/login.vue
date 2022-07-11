@@ -98,8 +98,8 @@ const rules = reactive<FormRules>({
 // 验证码相关
 const imgUrl = ref<string>('')
 const initImageCode = async () => {
-  const {data} = await getVerify();
-  imgUrl.value = data.data;
+  const {data} = await getVerify()
+  imgUrl.value = data.data
 }
 watch(() => imgUrl.value, () => loginForm.code = '')
 
@@ -110,6 +110,7 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid) => {
     if (valid) {
       const data = await login(loginForm);
+      console.log(data.data.data.permissions)
       switch (data.data.code as number) {
         case 200: {
           // 是否记住我

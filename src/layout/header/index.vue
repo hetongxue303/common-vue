@@ -9,6 +9,7 @@
           <component v-else is="fold"/>
         </el-icon>
       </div>
+      <Breadcrumb/>
     </div>
     <div class="right">
       <!--全屏-->
@@ -30,6 +31,7 @@
 
 <script setup lang="ts">
 import Center from '@layout/header/center.vue'
+import Breadcrumb from '@components/Breadcrumb/index.vue'
 
 import {useLayoutStore} from '../../store/modules/layout'
 

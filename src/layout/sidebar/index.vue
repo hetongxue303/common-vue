@@ -5,8 +5,8 @@
       :router="true"
       :unique-opened="true"
       active-text-color="#409EFF"
-      background-color="#304156"
       text-color="#fff"
+      background-color="#304156"
       class="menu">
     <!--logo-->
     <Logo/>

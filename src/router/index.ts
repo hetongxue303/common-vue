@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
                 path: '/dashboard',
                 name: 'dashboard',
                 meta: {
-                    title: '仪表盘',
+                    title: '首页',
                     keepAlive: true,
                     requireAuth: true
                 },
@@ -49,6 +49,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     nProgress.start()
+    // next()
     if (to.path === '/login' || to.meta.requireAuth === false) {
         next()
     } else if (useMainStore().getAuthorization && sessionStorage.getItem('Authorization')) {

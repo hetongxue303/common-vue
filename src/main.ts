@@ -9,8 +9,6 @@ import 'nprogress/nprogress.css'
 import ElementPlus from './plugins/element-plus'
 //windi.css
 import 'virtual:windi.css'
-// axios
-import {axios, VueAxios} from './utils/axios'
 // pinia
 import {createPinia} from 'pinia'
 
@@ -18,6 +16,5 @@ const app = createApp(App)
 
 app.use(router)
     .use(ElementPlus)
-    .use(VueAxios, axios)
     .use(createPinia())
     .mount('#app')

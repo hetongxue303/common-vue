@@ -1,14 +1,14 @@
-import {axios} from '../../utils/axios'
+import axios from '../../utils/request'
 import {loginEntity} from './types'
 import * as qs from 'qs'
 
-const baseUrl = '/api'
+const baseAPI = import.meta.env.VITE_BASE_API
 
 // 获取验证码
 export const getVerify = () => {
     return axios({
         method: 'GET',
-        url: baseUrl + '/getVerify'
+        url: baseAPI + '/getVerify'
     })
 }
 
@@ -16,7 +16,7 @@ export const getVerify = () => {
 export const login = (data: loginEntity) => {
     return axios({
         method: 'POST',
-        url: baseUrl + '/login',
+        url: baseAPI + '/login',
         data: qs.stringify(data),
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -28,6 +28,6 @@ export const login = (data: loginEntity) => {
 export const logout = () => {
     return axios({
         method: 'GET',
-        url: baseUrl + '/logout'
+        url: baseAPI + '/logout'
     })
 }
