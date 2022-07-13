@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-aside width="auto">
-      <Sidebar :collapse="layoutStore.getCollapse"/>
+      <Sidebar :collapse="loginStore.getCollapse"/>
     </el-aside>
     <el-container>
       <el-header height="50px">
@@ -23,15 +23,15 @@ import Footer from '@layout/footer/index.vue'
 import Header from '@layout/header/index.vue'
 
 import {onMounted} from 'vue'
-import {useLayoutStore} from '../store/modules/layout'
+import {useLoginStore} from '../store/modules/login'
 import {updateMenu, updateRouter} from '../utils/permission'
 
-const layoutStore = useLayoutStore()
+const loginStore = useLoginStore()
 
 // 登陆成功后 进入layout页面时 就更新路由和菜单
 onMounted(() => {
   updateRouter()// 更新路由
-  layoutStore.setMenuList(updateMenu())// 更新菜单
+  loginStore.setMenus(updateMenu())// 更新菜单
 })
 </script>
 

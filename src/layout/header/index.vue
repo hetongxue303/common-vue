@@ -3,9 +3,9 @@
 
     <div class="left">
       <!--折叠图标-->
-      <div class="collapse" @click="layoutStore.setCollapse(!layoutStore.getCollapse)">
+      <div class="collapse" @click="loginStore.setCollapse(!loginStore.getCollapse)">
         <el-icon :size="28">
-          <component v-if="layoutStore.getCollapse" is="expand"/>
+          <component v-if="loginStore.getCollapse" is="expand"/>
           <component v-else is="fold"/>
         </el-icon>
       </div>
@@ -33,9 +33,9 @@
 import Center from '@layout/header/center.vue'
 import Breadcrumb from '@components/Breadcrumb/index.vue'
 
-import {useLayoutStore} from '../../store/modules/layout'
+import {useLoginStore} from '../../store/modules/login'
 
-const layoutStore = useLayoutStore()
+const loginStore = useLoginStore()
 
 // 设置全屏
 const toggleFullScreen = () => {

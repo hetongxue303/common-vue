@@ -66,14 +66,14 @@ import {onMounted, reactive, ref, watch} from 'vue'
 import {getVerify, login} from '../api/user/user'
 import {ElMessage, FormInstance, FormRules} from 'element-plus'
 import {useRouter} from 'vue-router'
-import {loginEntity} from '../api/user/types'
+import {loginEntity, loginVo} from '../api/user/types'
 import {useCookies} from '@vueuse/integrations/useCookies'
-import {useMainStore} from '../store'
 import {Base64} from 'js-base64'
+import {useLoginStore} from '../store/modules/login'
+import {updateMenu} from "../utils/permission";
+import {menuItem} from "../layout/types";
 
-const cookie = useCookies()
-const mainStore = useMainStore()
-
+// 表单数据
 const loginForm = reactive<loginEntity>({
   username: '',
   password: '',
@@ -103,26 +103,34 @@ const initImageCode = async () => {
   const {data} = await getVerify()
   imgUrl.value = data.data
 }
+
+// 监听验证码变化
 watch(() => imgUrl.value, () => loginForm.code = '')
 
 // 登陆处理
+const cookie = useCookies()
+const loginStore = useLoginStore()
 const router = useRouter()
+
 const loginHandler = async (formEl: FormInstance | undefined) => {
+  // 表单校验
   if (!formEl) return
   await formEl.validate(async (valid) => {
     if (valid) {
-      const data = await login(loginForm);
-      console.log(data.data.data.permissions)
-      switch (data.data.code as number) {
+      // 登录请求
+      const {data, headers} = await login(loginForm);
+      switch (data.code as number) {
         case 200: {
-          // 是否记住我
+          // 记住我功能
           if (loginForm.rememberMe) {
             cookie.set('USERINFO', Base64.encode(JSON.stringify(loginForm)))
           } else if (cookie.get('USERINFO')) {
             cookie.remove('USERINFO')
           }
           // 存储Authorization
-          mainStore.setAuthorization(data.headers.authorization)
+          loginStore.setAuthorization(headers.authorization)
+          // 存储菜单
+          // 存储路由
           ElMessage.success('登陆成功')
           await router.push('/dashboard');
           break
@@ -157,7 +165,7 @@ const loginHandler = async (formEl: FormInstance | undefined) => {
 
 // 检查是否存在cookie 存在就填充信息
 const autoFillInfo = () => {
-  const data: loginEntity = cookie.get('USERINFO') ? JSON.parse(Base64.decode(cookie.get('USERINFO'))) : null
+  const data = cookie.get('USERINFO') ? JSON.parse(Base64.decode(cookie.get('USERINFO'))) : null
   if (data) {
     loginForm.rememberMe = data.rememberMe
     loginForm.username = data.username

@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-import {useLayoutStore} from '../../store/modules/layout'
+import {useLoginStore} from '../../store/modules/login'
 import {ref} from 'vue'
 
-const layoutStore = useLayoutStore()
+const layoutStore = useLoginStore()
 const title = ref<string>('通用管理系统')
 const logoImg = ref<string>('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
 </script>

@@ -11,7 +11,7 @@
     <!--logo-->
     <Logo/>
     <!--菜单项-->
-    <MenuItem :data="layoutStore.getMenuList"/>
+    <MenuItem :data="loginStore.getMenus"/>
   </el-menu>
 </template>
 
@@ -20,9 +20,9 @@ import MenuItem from '@layout/sidebar/menuItem.vue'
 import Logo from '@layout/sidebar/logo.vue'
 import {onMounted, PropType, ref, watch} from 'vue'
 import {useRoute} from 'vue-router'
-import {useLayoutStore} from '../../store/modules/layout'
+import {useLoginStore} from '../../store/modules/login'
 
-const layoutStore = useLayoutStore()
+const loginStore = useLoginStore()
 
 const props = defineProps({
   collapse: {

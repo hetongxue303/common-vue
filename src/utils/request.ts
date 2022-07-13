@@ -2,7 +2,7 @@ import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 import {ElMessage, ElNotification} from 'element-plus'
 import {useRouter} from 'vue-router'
 import * as nProgress from 'nprogress'
-import {useMainStore} from '../store'
+import {useLoginStore} from '../store/modules/login'
 
 const router = useRouter()
 
@@ -16,9 +16,9 @@ axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 
 axios.interceptors.request.use(async (config: AxiosRequestConfig) => {
     nProgress.start()
-    if (useMainStore().getAuthorization && localStorage.getItem('Authorization')) {
+    if (useLoginStore().getAuthorization && localStorage.getItem('Authorization')) {
         if (config.headers) {
-            config.headers.Authorization = useMainStore().getAuthorization
+            config.headers.Authorization = useLoginStore().getAuthorization
         }
     }
     return config;

@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import * as nProgress from 'nprogress'
-import {useMainStore} from '../store'
+import {useLoginStore} from '../store/modules/login'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -49,10 +49,9 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     nProgress.start()
-    // next()
     if (to.path === '/login' || to.meta.requireAuth === false) {
         next()
-    } else if (localStorage.getItem('Authorization') && useMainStore().getAuthorization) {
+    } else if (localStorage.getItem('Authorization') && useLoginStore().getAuthorization) {
         next()
     } else {
         next('/login')
