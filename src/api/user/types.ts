@@ -1,5 +1,3 @@
-import {Interface} from "readline";
-
 export interface loginEntity {
     username: string
     password: string
@@ -20,4 +18,10 @@ export interface loginVo {
     component: string
     meta: meta
     children?: Array<loginVo>
+}
+
+export interface queryInfo {
+    name?: string
+    page?: number
+    size?: number
 }
